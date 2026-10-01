@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { usePathway } from '@/context/PathwayContext';
 import { PATHWAYS } from '@/data/academyData';
 import { PathwayKey } from '@/types/academy';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import {
   UserCheck,
   CheckCircle2,
@@ -20,6 +21,8 @@ export default function AdmissionApplicationModal() {
   const { activeModal, modalData, closeModal, currentPathway, setPathway } = usePathway();
 
   const isOpen = activeModal === 'admission-intake';
+  useBodyScrollLock(isOpen);
+
   const [selectedPathway, setSelectedPathway] = useState<PathwayKey>((modalData?.pathway as PathwayKey) || currentPathway);
   const [candidateName, setCandidateName] = useState<string>('');
   const [currentSchool, setCurrentSchool] = useState<string>('');
@@ -42,27 +45,37 @@ export default function AdmissionApplicationModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+    <div
+      data-lenis-prevent="true"
+      onClick={closeModal}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs overscroll-contain"
+    >
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        data-lenis-prevent="true"
+        role="dialog"
+        aria-modal="true"
+        initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-[#E5E5E5] relative max-h-[90vh] overflow-y-auto"
+        exit={{ opacity: 0, scale: 0.96, y: 15 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-[#E5E5E5] relative max-h-[85vh] sm:max-h-[88vh] flex flex-col overflow-hidden overscroll-contain"
       >
         <button
           onClick={closeModal}
-          className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 cursor-pointer"
+          aria-label="Close modal"
+          className="absolute top-5 right-5 z-20 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
 
         {!isDone ? (
-          <div>
-            <div className="pb-4 border-b border-[#E5E5E5] mb-5">
+          <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden">
+            <div className="p-6 sm:p-7 pb-4 border-b border-[#E5E5E5] shrink-0 bg-white pr-14">
               <span className="text-[10px] font-bold uppercase tracking-wider text-[#457B9D] block mb-1">
                 Admission Studio Dossier
               </span>
-              <h3 className="font-heading font-extrabold text-2xl text-[#1D3557]">
+              <h3 className="font-heading font-extrabold text-xl sm:text-2xl text-[#1D3557] leading-tight">
                 Initiate Candidate Admission Intake
               </h3>
               <p className="text-xs text-[#1D3557]/70 font-sans mt-0.5">
@@ -70,7 +83,10 @@ export default function AdmissionApplicationModal() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <div
+              data-lenis-prevent="true"
+              className="flex-1 overflow-y-auto p-6 sm:p-7 py-4 space-y-4 overscroll-contain"
+            >
               <div>
                 <label className="block text-xs font-bold uppercase text-[#1D3557] mb-1.5">
                   Academic Pathway
@@ -93,7 +109,7 @@ export default function AdmissionApplicationModal() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[11px] font-bold text-gray-600 mb-1">Candidate Name *</label>
                   <input
@@ -144,7 +160,7 @@ export default function AdmissionApplicationModal() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[11px] font-bold text-gray-600 mb-1">Contact Email *</label>
                   <input
@@ -168,20 +184,23 @@ export default function AdmissionApplicationModal() {
                   />
                 </div>
               </div>
+            </div>
 
-              <div className="pt-3">
-                <button
-                  type="submit"
-                  className="w-full py-3 px-6 rounded-xl bg-[#1D3557] hover:bg-[#152740] text-white font-heading font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                >
-                  <Sparkles className="w-4 h-4 text-[#F4E1C1]" />
-                  <span>Submit Intake Dossier to Academic Council</span>
-                </button>
-              </div>
-            </form>
-          </div>
+            <div className="p-5 sm:p-6 border-t border-[#E5E5E5] bg-white shrink-0">
+              <button
+                type="submit"
+                className="w-full py-3 px-6 rounded-xl bg-[#1D3557] hover:bg-[#152740] text-white font-heading font-semibold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md"
+              >
+                <Sparkles className="w-4 h-4 text-[#F4E1C1]" />
+                <span>Submit Intake Dossier to Academic Council</span>
+              </button>
+            </div>
+          </form>
         ) : (
-          <div className="text-center py-6">
+          <div
+            data-lenis-prevent="true"
+            className="flex-1 overflow-y-auto p-6 sm:p-8 text-center overscroll-contain"
+          >
             <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-200">
               <CheckCircle2 className="w-7 h-7" />
             </div>

@@ -5,18 +5,18 @@ import { usePathway } from '@/context/PathwayContext';
 import { PATHWAYS, getEnrichedCampuses } from '@/data/academyData';
 import { PathwayKey } from '@/types/academy';
 import { Compass, MapPin, ShieldCheck, Mail, Phone, ArrowUp } from 'lucide-react';
+import { scrollToId, scrollToTop as smoothScrollToTop } from '@/lib/scroll';
 
 export default function AcademicFooter() {
   const { setPathway } = usePathway();
   const campuses = getEnrichedCampuses();
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    smoothScrollToTop();
   };
 
   const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    scrollToId(id, -85);
   };
 
   return (

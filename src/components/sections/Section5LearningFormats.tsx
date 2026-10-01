@@ -17,6 +17,7 @@ import {
   Clock,
   Sparkles
 } from 'lucide-react';
+import { scrollToId } from '@/lib/scroll';
 
 interface FormatSpecification {
   id: string;
@@ -274,8 +275,7 @@ export default function Section5LearningFormats() {
 
                   <button
                     onClick={() => {
-                      const el = document.getElementById('journey-builder');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      scrollToId('journey-builder', -85);
                     }}
                     className="py-3 px-4 rounded-xl bg-[#F8F7F4] text-[#1D3557] hover:bg-gray-100 font-heading font-semibold text-xs border border-[#E5E5E5] transition-colors cursor-pointer"
                   >

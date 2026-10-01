@@ -4,13 +4,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { usePathway } from '@/context/PathwayContext';
 import { Compass, Sparkles, ArrowRight, Calendar, ShieldCheck, MapPin } from 'lucide-react';
+import { scrollToId } from '@/lib/scroll';
 
 export default function Section13FinalCTA() {
   const { currentPathway, openModal } = usePathway();
 
   const scrollToBuilder = () => {
-    const el = document.getElementById('journey-builder');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    scrollToId('journey-builder', -85);
   };
 
   return (

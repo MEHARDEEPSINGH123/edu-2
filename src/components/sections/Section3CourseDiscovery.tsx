@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { usePathway } from '@/context/PathwayContext';
 import { getCoursesByPathway, getEnrichedCourses, PATHWAYS } from '@/data/academyData';
 import { EnrichedCourse, PathwayKey } from '@/types/academy';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import {
   Compass,
   ArrowRight,
@@ -28,6 +29,7 @@ export default function Section3CourseDiscovery() {
   const [selectedDiscipline, setSelectedDiscipline] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedJourneyCourse, setSelectedJourneyCourse] = useState<EnrichedCourse | null>(null);
+  useBodyScrollLock(Boolean(selectedJourneyCourse));
 
   const coursesInPathway = getCoursesByPathway(currentPathway);
 
@@ -232,18 +234,22 @@ export default function Section3CourseDiscovery() {
         <AnimatePresence>
           {selectedJourneyCourse && (
             <motion.div
+              data-lenis-prevent="true"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs"
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overscroll-contain"
               onClick={() => setSelectedJourneyCourse(null)}
             >
               <motion.div
+                data-lenis-prevent="true"
+                role="dialog"
+                aria-modal="true"
                 initial={{ scale: 0.95, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.95, y: 20 }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-[#E5E5E5] max-h-[90vh] overflow-y-auto"
+                className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-[#E5E5E5] max-h-[88vh] overflow-y-auto overscroll-contain"
               >
                 <div className="flex items-center justify-between pb-4 border-b border-[#E5E5E5] mb-5">
                   <div>

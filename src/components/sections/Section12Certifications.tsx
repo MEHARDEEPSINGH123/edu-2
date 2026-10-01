@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { usePathway } from '@/context/PathwayContext';
 import { getEnrichedCertifications, PATHWAYS } from '@/data/academyData';
 import { EnrichedCertification, PathwayKey } from '@/types/academy';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import {
   Award,
   ShieldCheck,
@@ -22,6 +23,7 @@ export default function Section12Certifications() {
 
   const [selectedPathwayFilter, setSelectedPathwayFilter] = useState<PathwayKey | 'all'>(currentPathway);
   const [activeCert, setActiveCert] = useState<EnrichedCertification | null>(null);
+  useBodyScrollLock(Boolean(activeCert));
 
   React.useEffect(() => {
     setSelectedPathwayFilter(currentPathway);
@@ -154,7 +156,10 @@ export default function Section12Certifications() {
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.95, y: 20 }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-[#E5E5E5] relative"
+                data-lenis-prevent="true"
+                role="dialog"
+                aria-modal="true"
+                className="bg-white rounded-3xl max-w-xl w-full max-h-[85vh] overflow-y-auto overscroll-contain p-6 sm:p-8 shadow-2xl border border-[#E5E5E5] relative"
               >
                 <div className="flex items-center justify-between pb-4 border-b border-[#E5E5E5] mb-5">
                   <div>

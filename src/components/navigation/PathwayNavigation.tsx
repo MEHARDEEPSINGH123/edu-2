@@ -16,6 +16,7 @@ import {
   Menu,
   GraduationCap
 } from 'lucide-react';
+import { scrollToId, scrollToTop } from '@/lib/scroll';
 
 const PATHWAY_ITEMS: { key: PathwayKey; label: string; sub: string }[] = [
   { key: 'psle', label: 'PSLE', sub: 'Primary 5–6' },
@@ -50,10 +51,7 @@ export default function PathwayNavigation() {
   const activeInfo = PATHWAYS[currentPathway];
 
   const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToId(id, -85);
     setMobileMenuOpen(false);
   };
 
@@ -72,7 +70,7 @@ export default function PathwayNavigation() {
             {/* Brand Identity */}
             <div
               className="flex items-center gap-2.5 cursor-pointer select-none shrink-0 group"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => scrollToTop()}
             >
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#1D3557] flex items-center justify-center text-[#F4E1C1] shadow-xs border border-[#1D3557]/20 group-hover:scale-105 transition-transform duration-300">
                 <Compass className="w-5 h-5 text-[#D4A373] group-hover:rotate-45 transition-transform duration-500" />

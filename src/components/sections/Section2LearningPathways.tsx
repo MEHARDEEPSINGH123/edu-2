@@ -18,6 +18,7 @@ import {
   TrendingUp,
   GraduationCap
 } from 'lucide-react';
+import { scrollToId } from '@/lib/scroll';
 
 export default function Section2LearningPathways() {
   const { currentPathway, setPathway, openModal } = usePathway();
@@ -63,8 +64,7 @@ export default function Section2LearningPathways() {
           <button
             onClick={() => {
               setPathway(selectedPathwayTab);
-              const el = document.getElementById('journey-builder');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
+              scrollToId('journey-builder', -85);
             }}
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#1D3557] text-[#F8F7F4] hover:bg-[#152740] font-heading font-semibold text-xs transition-all shadow-xs cursor-pointer group"
           >

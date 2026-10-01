@@ -22,6 +22,7 @@ import {
   ShieldCheck,
   Building2
 } from 'lucide-react';
+import { scrollToId } from '@/lib/scroll';
 
 interface AcademicLevelOption {
   level: string;
@@ -126,8 +127,7 @@ export default function LandingExperience() {
   };
 
   const scrollToBuilder = () => {
-    const el = document.getElementById('journey-builder');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    scrollToId('journey-builder', -85);
   };
 
   return (

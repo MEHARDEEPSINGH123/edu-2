@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { usePathway } from '@/context/PathwayContext';
 import { PathwayKey } from '@/types/academy';
 import { getEnrichedCampuses, getEnrichedTrialClasses, PATHWAYS } from '@/data/academyData';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import {
   Calendar,
   Clock,
@@ -24,6 +25,8 @@ export default function TrialBookingModal() {
   const { activeModal, modalData, closeModal, currentPathway } = usePathway();
 
   const isOpen = activeModal === 'trial-booking';
+  useBodyScrollLock(isOpen);
+
   const campuses = getEnrichedCampuses();
   const trialClasses = getEnrichedTrialClasses();
 
@@ -52,30 +55,41 @@ export default function TrialBookingModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+    <div
+      data-lenis-prevent="true"
+      onClick={closeModal}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs overscroll-contain"
+    >
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        data-lenis-prevent="true"
+        role="dialog"
+        aria-modal="true"
+        initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-[#E5E5E5] relative max-h-[92vh] overflow-y-auto"
+        exit={{ opacity: 0, scale: 0.96, y: 15 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-[#E5E5E5] relative max-h-[85vh] sm:max-h-[88vh] flex flex-col overflow-hidden overscroll-contain"
       >
         {/* Close Button */}
         <button
           onClick={closeModal}
-          className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors cursor-pointer"
+          aria-label="Close dialog"
+          className="absolute top-5 right-5 z-20 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
 
         {!isSubmitted ? (
-          <div>
-            {/* Modal Header */}
-            <div className="pb-4 border-b border-[#E5E5E5] mb-6">
+          <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden">
+            
+            {/* Fixed Modal Header */}
+            <div className="p-6 sm:p-7 pb-4 border-b border-[#E5E5E5] shrink-0 bg-white pr-14">
               <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#1D3557]/10 text-[10px] font-bold text-[#1D3557] mb-2 uppercase tracking-wider">
                 <Calendar className="w-3 h-3 text-[#D4A373]" />
                 <span>Diagnostic Masterclass Intake</span>
               </div>
-              <h3 className="font-heading font-extrabold text-2xl text-[#1D3557]">
+              <h3 className="font-heading font-extrabold text-xl sm:text-2xl text-[#1D3557] leading-tight">
                 Reserve Diagnostic Assessment
               </h3>
               <p className="text-xs text-[#1D3557]/70 font-sans mt-1">
@@ -84,8 +98,11 @@ export default function TrialBookingModal() {
               </p>
             </div>
 
-            {/* Booking Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Scrollable Middle Body (data-lenis-prevent ensures wheel scrolls this, not the background) */}
+            <div
+              data-lenis-prevent="true"
+              className="flex-1 overflow-y-auto p-6 sm:p-7 py-4 space-y-4 overscroll-contain"
+            >
               
               {/* Campus Sanctuary Selection */}
               <div>
@@ -95,7 +112,7 @@ export default function TrialBookingModal() {
                 <select
                   value={selectedCampusId}
                   onChange={(e) => setSelectedCampusId(e.target.value)}
-                  className="w-full p-3 rounded-xl bg-[#F8F7F4] border border-[#E5E5E5] text-xs font-semibold text-[#1D3557] focus:outline-none focus:border-[#1D3557]"
+                  className="w-full p-3 rounded-xl bg-[#F8F7F4] border border-[#E5E5E5] text-xs font-semibold text-[#1D3557] focus:outline-none focus:border-[#1D3557] cursor-pointer"
                   required
                 >
                   {campuses.map((c) => (
@@ -127,7 +144,7 @@ export default function TrialBookingModal() {
                       onClick={() => setPreferredDate(slot)}
                       className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${
                         preferredDate === slot
-                          ? 'bg-[#1D3557] border-[#1D3557] text-white font-semibold'
+                          ? 'bg-[#1D3557] border-[#1D3557] text-white font-semibold shadow-xs'
                           : 'bg-[#F8F7F4] border-[#E5E5E5] text-[#1D3557] hover:border-[#D4A373]'
                       }`}
                     >
@@ -138,7 +155,7 @@ export default function TrialBookingModal() {
               </div>
 
               {/* Student & Parent Info */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <div>
                   <label className="block text-[11px] font-bold text-gray-600 mb-1">Student Full Name *</label>
                   <input
@@ -176,7 +193,7 @@ export default function TrialBookingModal() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-600 mb-1">Singapore Mobile Number (+65) *</label>
+                  <label className="block text-[11px] font-bold text-gray-600 mb-1">Singapore Mobile (+65) *</label>
                   <input
                     type="tel"
                     required
@@ -200,21 +217,26 @@ export default function TrialBookingModal() {
                 />
               </div>
 
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  className="w-full py-3.5 px-6 rounded-xl bg-[#1D3557] hover:bg-[#152740] text-white font-heading font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                >
-                  <Sparkles className="w-4 h-4 text-[#F4E1C1]" />
-                  <span>Confirm Diagnostic Masterclass Reservation</span>
-                </button>
-              </div>
+            </div>
 
-            </form>
-          </div>
+            {/* Fixed Sticky Footer (Always visible, never cut off) */}
+            <div className="p-5 sm:p-6 border-t border-[#E5E5E5] bg-white shrink-0 shadow-xs">
+              <button
+                type="submit"
+                className="w-full py-3 px-6 rounded-xl bg-[#1D3557] hover:bg-[#152740] text-white font-heading font-semibold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md"
+              >
+                <Sparkles className="w-4 h-4 text-[#F4E1C1]" />
+                <span>Confirm Diagnostic Masterclass Reservation</span>
+              </button>
+            </div>
+
+          </form>
         ) : (
-          /* Confirmation Ticket Pass */
-          <div className="text-center py-4">
+          /* Confirmation Ticket Pass View */
+          <div
+            data-lenis-prevent="true"
+            className="flex-1 overflow-y-auto p-6 sm:p-8 text-center overscroll-contain"
+          >
             <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-200">
               <CheckCircle2 className="w-8 h-8" />
             </div>
