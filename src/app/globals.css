@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #F8F7F4;
+    --primary: #1D3557;
+    --secondary: #457B9D;
+    --accent: #D4A373;
+    --highlight: #F4E1C1;
+    --card-bg: #FFFFFF;
+    --border-color: #E5E5E5;
+
+    --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-editorial: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  html {
+    background-color: var(--bg-primary);
+    color: var(--primary);
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: #1D3557;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: #F4E1C1;
+    color: #1D3557;
+  }
+}
+
+/* Custom Typography Utilities */
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-editorial {
+  font-family: var(--font-editorial);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Subtle architectural grid pattern */
+.bg-academic-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(29, 53, 87, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 53, 87, 0.035) 1px, transparent 1px);
+}
+
+.bg-dot-matrix {
+  background-image: radial-gradient(rgba(29, 53, 87, 0.08) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8F7F4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4A373;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #457B9D;
+}
+
+/* Glassmorphism & Cards */
+.academic-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  box-shadow: 0 1px 3px rgba(29, 53, 87, 0.04), 0 8px 24px -4px rgba(29, 53, 87, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.academic-card:hover {
+  border-color: #D4A373;
+  box-shadow: 0 4px 20px -2px rgba(212, 163, 115, 0.15), 0 12px 32px -4px rgba(29, 53, 87, 0.08);
+}
+
+.academic-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 229, 229, 0.8);
+}
+
+.academic-glass-dark {
+  background: rgba(29, 53, 87, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Lenis smooth scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}

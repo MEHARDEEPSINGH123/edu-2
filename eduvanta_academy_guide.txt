@@ -1,0 +1,134 @@
+
+EDUVANTA ACADEMY - PREMIUM EDUCATION PLATFORM GUIDE
+
+BRAND
+Eduvanta Academy
+
+TAGLINE
+Design Your Academic Journey
+
+IMPORTANT DESIGN RULE
+
+DO NOT USE:
+- Trainer profile card grids
+- Circular profile pictures
+- Testimonial sliders
+- Generic education website layouts
+- Hero + Courses + Reviews structure
+- Traditional tuition centre templates
+- Repeating UI patterns used in previous projects
+
+CORE IDEA
+
+Create an Academic Journey Platform.
+
+The website should feel like:
+- Apple Education
+- MasterClass
+- Notion
+- Modern Learning Product
+
+NOT:
+- Tuition website
+- School directory
+- LMS dashboard
+
+NAVIGATION
+
+Use a dynamic academic pathway navigation.
+
+Users can enter through:
+
+PSLE
+O-Level
+A-Level
+IB
+IGCSE
+Skills Development
+
+The entire website adapts around the selected pathway.
+
+UI CONCEPT
+
+Instead of showing courses first:
+
+Show a student's future journey.
+
+Example:
+
+Current Level
+↓
+Academic Goal
+↓
+Recommended Path
+↓
+Course Selection
+↓
+Trial Class
+↓
+Admission
+
+This becomes the main UX.
+
+SECTIONS
+
+1. Academic Journey Builder
+2. Learning Pathways
+3. Course Discovery Experience
+4. Trial Class Explorer
+5. Admission Studio
+6. Scholarship Opportunities
+7. Campus Experience
+8. Academic Success Stories
+9. Parent Resource Center
+10. Certifications
+11. Exam Calendar
+12. Contact
+
+COLOR PALETTE
+
+Background: #F8F7F4
+Primary: #1D3557
+Secondary: #457B9D
+Accent: #D4A373
+Highlight: #F4E1C1
+Card: #FFFFFF
+Border: #E5E5E5
+
+TYPOGRAPHY
+
+Headings:
+Space Grotesk
+
+Editorial:
+Cormorant Garamond
+
+Body:
+Inter
+
+ANIMATIONS
+
+GSAP
+Framer Motion
+Lenis
+
+Use:
+
+- Academic pathway transitions
+- Scroll storytelling
+- Progress animations
+- Interactive learning maps
+- Campus reveals
+- Admission journey animations
+
+DO NOT USE
+
+- Spinning counters
+- Awards counters
+- 5000+ students sections
+- 100+ trainers sections
+- Generic statistics blocks
+
+FINAL OBJECTIVE
+
+The website should feel like a premium academic success platform where students plan their educational future rather than browse tuition classes.
